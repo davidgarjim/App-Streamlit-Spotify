@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 import shap
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+import time
 
 
 def importar_csv():
@@ -398,8 +399,6 @@ def playlist(data):
     return df_clusters, modelo_clustering
 
 
-
-
 def llevarlo_a_spotify(data, df_clusters, modelo):
     # Verificar que exista la columna de etiquetas para los clusters
     label_column = 'label'
@@ -421,6 +420,8 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
             # Mostrar spinner durante la autenticación
             with st.spinner("Autenticando en Spotify..."):
                 try:
+                    start_time = time.time()  # Registrar el tiempo de inicio de la autenticación
+
                     # Configuración de autenticación con Spotipy
                     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
                         client_id=client_id,
@@ -438,6 +439,10 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
                     # Guardar la instancia de autenticación en la sesión
                     st.session_state['spotify_auth'] = sp
                     st.session_state['user_id'] = user_id
+
+                    # Mostrar el tiempo que tomó la autenticación
+                    st.write(f"La autenticación tomó {time.time() - start_time:.2f} segundos.")
+
                 except Exception as e:
                     st.error("Error en la autenticación de Spotify. Verifica tus credenciales y el URI de redirección.")
                     st.error(f"Detalles: {e}")
@@ -482,4 +487,3 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
                     st.error(f"Detalles: {e}")
     else:
         st.info("Por favor, autentícate en Spotify en el Paso 1 antes de exportar la playlist.")
-
