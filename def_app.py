@@ -401,8 +401,8 @@ def playlist(data):
 
 
 # Configuración de autenticación de la aplicación (mantén el client_secret seguro)
-client_id = os.getenv("SPOTIFY_CLIENT_ID", "27b60162854a4d15beba55f419ffe8b9")  # Mejor si usas variables de entorno
-client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "6fd02730b5504138b6fcb898bc67d496")  # Mejor si usas variables de entorno
+client_id = os.getenv("SPOTIFY_CLIENT_ID", "###")  # Mejor si usas variables de entorno
+client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "###")  # Mejor si usas variables de entorno
 redirect_uri = "https://app-spotify.streamlit.app/callback"  # Debe estar registrado en el Dashboard de Spotify
 
 
