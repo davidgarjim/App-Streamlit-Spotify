@@ -312,14 +312,15 @@ def playlist(data):
     st.subheader("Crear Playlist basada en Clustering")
 
     variables_clusters = ['Danceability', 'Energy', 'Tempo', 'Liveness', 'Acousticness']
-
     df_clusters = data[variables_clusters + ["Track Name", "Artist", "ID"]].copy()
 
+    # Select clustering model
     modelo_clustering = st.selectbox("Selecciona el modelo de clustering",
                                      ["KMeans", "DBSCAN", "Agglomerative Clustering", "Mean Shift",
                                       "Spectral Clustering"],
                                      key="model_selection")
 
+    # Perform clustering and store result in `label` column
     if modelo_clustering == "KMeans":
         n_clusters = st.slider("Número de clusters para KMeans", min_value=2, max_value=20, value=8, step=1, key="kmeans_clusters")
         kmeans = KMeans(n_clusters=n_clusters, random_state=42)
@@ -351,7 +352,6 @@ def playlist(data):
         spectral = SpectralClustering(n_clusters=n_clusters, assign_labels="kmeans", random_state=42)
         df_clusters['label'] = spectral.fit_predict(df_clusters[variables_clusters])
 
-    # Visualización del clustering
     st.write(f"Clusters generados con {modelo_clustering}:")
     plt.figure(figsize=(10, 6))
     sns.scatterplot(x='Energy', y='Tempo', hue='label', data=df_clusters, palette='Set1')
@@ -363,7 +363,6 @@ def playlist(data):
         for cluster in df_clusters['label'].unique():
             muestra = df_clusters[df_clusters['label'] == cluster].iloc[0]
             st.write(f"Cluster {cluster}: Canción - {muestra['Track Name']}, Artista - {muestra['Artist']}")
-
 
     with st.expander("¿Por qué estas playlist?"):
         # Interpretación con SHAP para entender la importancia de las variables en los clusters
@@ -399,7 +398,8 @@ def playlist(data):
     return df_clusters, modelo_clustering
 
 def llevarlo_a_spotify(data, df_clusters, modelo):
-    label_column = f'label_{modelo.lower()}'
+    # Fixed label column to be consistently named 'label'
+    label_column = 'label'
     if label_column not in df_clusters.columns:
         st.error(f"Error: The specified clustering label '{label_column}' does not exist in the dataframe.")
         return
