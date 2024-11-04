@@ -399,32 +399,35 @@ def playlist(data):
     return df_clusters, modelo_clustering
 
 def llevarlo_a_spotify(data, df_clusters, modelo):
-    with st.expander("Exportar mis playlist a Spotify"):
-        st.subheader("Conectar con Spotify y crear Playlist")
+    label_column = f'label_{modelo.lower()}'
+    if label_column not in df_clusters.columns:
+        st.error(f"Error: The specified clustering label '{label_column}' does not exist in the dataframe.")
+        return
 
-        client_id = st.text_input("Usuario de Spotify")
-        client_secret = st.text_input("Contraseña", type="password")
-        nombre_playlist = st.text_input("Nombre de la Playlist")
+    st.subheader("Conectar con Spotify y crear Playlist")
 
-        redirect_uri = "http://localhost:8888/callback"
+    client_id = st.text_input("Usuario de Spotify")
+    client_secret = st.text_input("Contraseña", type="password")
+    nombre_playlist = st.text_input("Nombre de la Playlist")
 
-        if st.button("Crear Playlist en Spotify"):
-            if client_id and client_secret and nombre_playlist:
-                sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
-                    client_id=client_id,
-                    client_secret=client_secret,
-                    redirect_uri=redirect_uri,  # URI configurado directamente
-                    scope='playlist-modify-private'
-                ))
+    if st.button("Crear Playlist en Spotify"):
+        if client_id and client_secret and nombre_playlist:
+            sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
+                client_id=client_id,
+                client_secret=client_secret,
+                redirect_uri="https://app-spotify.streamlit.app/callback",
+                scope='playlist-modify-private'
+            ))
 
-                cluster_id = st.selectbox("Selecciona el cluster para exportar", df_clusters[f'label_{modelo.lower()}'].unique())
-                canciones_cluster = df_clusters[df_clusters[f'label_{modelo.lower()}'] == cluster_id]
-                lista_ids = canciones_cluster['ID'].tolist()
+            # Select cluster for export
+            cluster_id = st.selectbox("Selecciona el cluster para exportar", df_clusters[label_column].unique())
+            canciones_cluster = df_clusters[df_clusters[label_column] == cluster_id]
+            lista_ids = canciones_cluster['ID'].tolist()
 
-                user_id = sp.current_user()['id']
-                playlist = sp.user_playlist_create(user=user_id, name=nombre_playlist, public=False)
-                sp.user_playlist_add_tracks(user=user_id, playlist_id=playlist['id'], tracks=lista_ids)
+            user_id = sp.current_user()['id']
+            playlist = sp.user_playlist_create(user=user_id, name=nombre_playlist, public=False)
+            sp.user_playlist_add_tracks(user=user_id, playlist_id=playlist['id'], tracks=lista_ids)
 
-                st.success(f'Playlist "{nombre_playlist}" creada con éxito y canciones añadidas.')
-            else:
-                st.error("Por favor, completa todos los campos de autenticación.")
+            st.success(f'Playlist "{nombre_playlist}" creada con éxito y canciones añadidas.')
+        else:
+            st.error("Por favor, completa todos los campos de autenticación.")
