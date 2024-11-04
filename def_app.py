@@ -398,43 +398,17 @@ def playlist(data):
 
     return df_clusters, modelo_clustering
 
-
-
-def abrir_autenticacion_spotify(client_id, client_secret, redirect_uri):
+def abrir_autenticacion_spotify():
     auth_manager = SpotifyOAuth(
-        client_id=client_id,
-        client_secret=client_secret,
-        redirect_uri=redirect_uri,
+        client_id= "27b60162854a4d15beba55f419ffe8b9",
+        client_secret="6fd02730b5504138b6fcb898bc67d496",
+        redirect_uri="https://app-spotify.streamlit.app/callback",
         scope='playlist-modify-private',
         cache_path=".spotify_cache"
     )
-
-    # Abre el navegador para autenticar
     auth_url = auth_manager.get_authorize_url()
     webbrowser.open(auth_url)
-    st.info("Autenticación en proceso. Por favor, completa la autenticación en el navegador.")
-
-
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-import streamlit as st
-import webbrowser
-
-
-def abrir_autenticacion_spotify(client_id, client_secret, redirect_uri):
-    auth_manager = SpotifyOAuth(
-        client_id=client_id,
-        client_secret=client_secret,
-        redirect_uri=redirect_uri,
-        scope='playlist-modify-private',
-        cache_path=".spotify_cache"
-    )
-
-    # Abre el navegador para autenticar
-    auth_url = auth_manager.get_authorize_url()
-    webbrowser.open(auth_url)
-    st.info("Autenticación en proceso. Por favor, completa la autenticación en el navegador.")
-
+    st.info("Autenticación en proceso. Completa la autenticación en el navegador y vuelve aquí.")
 
 def llevarlo_a_spotify(data, df_clusters, modelo):
     label_column = 'label'
@@ -442,14 +416,15 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
         st.error(f"Error: La columna de etiquetas '{label_column}' no existe en el dataframe.")
         return
 
-    # Paso 1: Autenticación en Spotify
-    st.subheader("Paso 1: Autentificación en Spotify")
+    # Paso 1: Autenticación de la aplicación en Spotify
+    st.subheader("Paso 1: Autenticación en Spotify")
 
-    client_id = st.text_input("Client ID de Spotify:")
-    client_secret = st.text_input("Client Secret de Spotify:", type="password")
-    redirect_uri = "https://app-spotify.streamlit.app/callback"  # Asegúrate de que esté registrado en Spotify Developer Dashboard
+    # Obtén las credenciales de la aplicación (Client ID y Client Secret)
+    client_id = st.text_input("Client ID de la aplicación Spotify:")
+    client_secret = st.text_input("Client Secret de la aplicación Spotify:", type="password")
+    redirect_uri = "http://localhost:8888/callback"  # Cambia esto si estás en producción en la nube
 
-    # Botón de autenticación en el navegador
+    # Botón para iniciar la autenticación en el navegador
     if st.button("Iniciar Autenticación en el Navegador"):
         if client_id and client_secret:
             abrir_autenticacion_spotify(client_id, client_secret, redirect_uri)
@@ -466,6 +441,7 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
             cache_path=".spotify_cache"
         )
 
+        # Verificar si ya hay un token de autenticación en caché
         if auth_manager.get_cached_token():
             sp = spotipy.Spotify(auth_manager=auth_manager)
             user_info = sp.current_user()
@@ -480,6 +456,7 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
     if 'spotify_auth' in st.session_state:
         st.subheader("Paso 2: Exportar Playlist a Spotify")
 
+        # Nombre de la playlist y selección del cluster
         nombre_playlist = st.text_input("Nombre de la Playlist:")
         cluster_id = st.selectbox("Selecciona el cluster para exportar", df_clusters[label_column].unique())
         canciones_cluster = df_clusters[df_clusters[label_column] == cluster_id]
@@ -489,13 +466,16 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
             st.warning("No hay canciones en este cluster para exportar.")
             return
 
+        # Botón para crear la playlist
         if st.button("Crear Playlist en Spotify"):
             with st.spinner("Creando la playlist en Spotify y agregando canciones..."):
                 try:
+                    # Crear la playlist en la cuenta del usuario autenticado
                     playlist = st.session_state['spotify_auth'].user_playlist_create(
                         user=st.session_state['user_id'], name=nombre_playlist, public=False)
                     st.info(f'Playlist creada con éxito: "{nombre_playlist}"')
 
+                    # Añadir canciones a la playlist
                     st.session_state['spotify_auth'].user_playlist_add_tracks(
                         user=st.session_state['user_id'], playlist_id=playlist['id'], tracks=lista_ids)
                     st.success(f'Playlist "{nombre_playlist}" creada y canciones añadidas con éxito.')
