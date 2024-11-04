@@ -415,6 +415,27 @@ def abrir_autenticacion_spotify(client_id, client_secret, redirect_uri):
     st.info("Autenticación en proceso. Por favor, completa la autenticación en el navegador.")
 
 
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+import streamlit as st
+import webbrowser
+
+
+def abrir_autenticacion_spotify(client_id, client_secret, redirect_uri):
+    auth_manager = SpotifyOAuth(
+        client_id=client_id,
+        client_secret=client_secret,
+        redirect_uri=redirect_uri,
+        scope='playlist-modify-private',
+        cache_path=".spotify_cache"
+    )
+
+    # Abre el navegador para autenticar
+    auth_url = auth_manager.get_authorize_url()
+    webbrowser.open(auth_url)
+    st.info("Autenticación en proceso. Por favor, completa la autenticación en el navegador.")
+
+
 def llevarlo_a_spotify(data, df_clusters, modelo):
     label_column = 'label'
     if label_column not in df_clusters.columns:
@@ -426,9 +447,9 @@ def llevarlo_a_spotify(data, df_clusters, modelo):
 
     client_id = st.text_input("Client ID de Spotify:")
     client_secret = st.text_input("Client Secret de Spotify:", type="password")
-    redirect_uri = "https://app-spotify.streamlit.app/callback"
+    redirect_uri = "https://app-spotify.streamlit.app/callback"  # Asegúrate de que esté registrado en Spotify Developer Dashboard
 
-    # Autenticar si no está en session_state
+    # Botón de autenticación en el navegador
     if st.button("Iniciar Autenticación en el Navegador"):
         if client_id and client_secret:
             abrir_autenticacion_spotify(client_id, client_secret, redirect_uri)
