@@ -406,31 +406,20 @@ client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "###")  # Mejor si usas varia
 redirect_uri = "https://app-spotify.streamlit.app/callback"  # Debe estar registrado en el Dashboard de Spotify
 
 
-# Función para iniciar la autenticación de usuario y obtener el token
-def autenticar_usuario():
-    auth_manager = SpotifyOAuth(
-        client_id=client_id,
-        client_secret=client_secret,
-        redirect_uri=redirect_uri,
-        scope='playlist-modify-private',
-        cache_path=".spotify_cache"
-    )
-
-    if not auth_manager.get_cached_token():  # Si no hay token en caché, inicia la autenticación
-        auth_url = auth_manager.get_authorize_url()
-        st.markdown(f"[Haz clic aquí para autenticarte en Spotify]({auth_url})")
-        st.info("Después de autenticarte, vuelve aquí para continuar.")
-        return None
-    else:
-        return spotipy.Spotify(auth_manager=auth_manager)
-
-
 # Función principal para crear la playlist en la cuenta de usuario autenticado
 def llevarlo_a_spotify(data, df_clusters, modelo):
     st.subheader("Conectar con tu cuenta de Spotify para crear una Playlist")
 
     # Autenticar usuario y obtener instancia de Spotify
-    sp = autenticar_usuario()
+    auth_manager = SpotifyOAuth(
+        client_id="27b60162854a4d15beba55f419ffe8b9",  # Credenciales proporcionadas
+        client_secret="6fd02730b5504138b6fcb898bc67d496",  # Credenciales proporcionadas
+        redirect_uri="https://app-spotify.streamlit.app/callback",
+        scope='playlist-modify-private',
+        cache_path=".spotify_cache"
+    )
+
+    sp = spotipy.Spotify(auth_manager=auth_manager)
 
     if sp:  # Si el usuario está autenticado
         user_info = sp.current_user()
