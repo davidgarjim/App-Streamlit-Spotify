@@ -4,7 +4,7 @@
 import streamlit as st
 import pandas as pd
 from def_app import (importar_csv, archivo_a_utilizar, genre, artistas, albums, playlist,
-                     llevarlo_a_spotify, clean_df, conocer_variables, columns_var)
+                     clean_df, conocer_variables, columns_var)
 from io import StringIO
 import seaborn as sns
 from matplotlib import pyplot as plt
@@ -220,9 +220,17 @@ def main():
                     with st.expander("Ver Álbums"):
                         albums(df)
 
+
                 elif visualizacion == "Playlists automáticas con IA":
-                    df_clusters, modelo_clustering = playlist(df)
-                    llevarlo_a_spotify(df, df_clusters, modelo_clustering)
+
+                    df_clusters, modelo_clustering = playlist(df)  # Obtener clusters y modelo
+
+                    #limpiar_cache
+
+                    #if df_clusters is not None:
+                        #llevarlo_a_spotify(df, df_clusters, modelo_clustering)  # Crear playlists en Spotify
+                    st.success("\nTAN PRONTO COMO SPOTIFY LO AUTORICE PODRÁS PASAR TUS PLAYLIST A SPOTIFY DESDE AQUÍ\n")
+
 
         else:
             st.warning("Por favor, selecciona al menos una opción para visualizar.")

@@ -66,57 +66,60 @@ def conocer_variables():
         Descripción: Es una medida que indica qué tan popular es una canción en la
         plataforma de Spotify. Este valor es un número entre 0 y 100, donde 100
         representa la canción más popular. La popularidad se basa en el número de
-        reproducciones recientes, cuántas veces ha sido compartida, añadida a playlists
-        y otros factores que Spotify considera.
+        reproducciones recientes, cuántas veces ha sido compartida, añadida a
+        playlists y otros factores que Spotify considera.
         
         Rango: 0 a 100.
 
 
     2. Duration (ms)
 
-        Descripción: Es la duración total de la canción medida en milisegundos (ms). Puedes
-        dividir este valor por 60,000 para convertirlo en minutos y obtener una métrica más
-        comprensible.
+        Descripción: Es la duración total de la canción medida en milisegundos (ms).
+        Puedes dividir este valor por 60,000 para convertirlo en minutos y obtener
+        una métrica más comprensible.
         
         Ejemplo: Una duración de 240,000 ms equivaldría a una canción de 4 minutos.
 
 
     3. Danceability (Bailabilidad)
 
-        Descripción: Esta métrica mide lo adecuado que es una canción para bailar, basada en
-        varios elementos musicales como el tempo, la estabilidad rítmica, la fuerza del
-        beat, y la regularidad. Un valor más alto indica que la canción es más fácil de bailar.
+        Descripción: Esta métrica mide lo adecuado que es una canción para bailar,
+        basada en varios elementos musicales como el tempo, la estabilidad rítmica,
+        la fuerza del beat, y la regularidad. Un valor más alto indica que la canción
+        es más fácil de bailar.
         
-        Rango: 0 a 1. Un valor de 1 significa que la canción es extremadamente bailable.
+        Rango: 0 a 1. Un valor de 1 significa que la canción es extremadamente
+        bailable.
 
 
     4. Energy (Energía)
 
-        Descripción: Es una medida de la intensidad y actividad percibida de una canción. Las
-        canciones con alta energía tienden a sentirse rápidas, fuertes y ruidosas (por ejemplo,
-        música de rock o metal), mientras que las canciones con baja energía son más suaves y
-        relajadas.
+        Descripción: Es una medida de la intensidad y actividad percibida de una
+        canción. Las canciones con alta energía tienden a sentirse rápidas, fuertes
+        y ruidosas (por ejemplo, música de rock o metal), mientras que las canciones
+        con baja energía son más suaves y relajadas.
         
         Rango: 0 a 1, donde un valor cercano a 1 indica alta energía.
 
 
     5. Key (Tonalidad)
 
-        Descripción: Representa la clave musical de la canción, utilizando notación musical
-        estándar donde:
+        Descripción: Representa la clave musical de la canción, utilizando notación
+        musical estándar donde:
             0 es Do (C)
             1 es Do# (C#) o Re♭ (D♭)
             Y así sucesivamente hasta 11 (Si, o B).
             
-        Rango: 0 a 11, representando cada una de las 12 notas musicales de la escala cromática.
+        Rango: 0 a 11, representando cada una de las 12 notas musicales de la escala
+        cromática.
 
 
     6. Loudness (Volumen)
 
-        Descripción: Es una medida del volumen promedio de una canción, en decibelios (dB). Las
-        canciones modernas tienden a ser más fuertes debido a la "guerra del volumen", pero el
-        rango generalmente está entre -60 dB y 0 dB. Un valor más bajo indica que la canción es
-        más silenciosa.
+        Descripción: Es una medida del volumen promedio de una canción, en decibelios
+        (dB). Las canciones modernas tienden a ser más fuertes debido a la "guerra del
+        volumen", pero el rango generalmente está entre -60 dB y 0 dB. Un valor más bajo
+        indica que la canción es más silenciosa.
         
         Rango: -60 dB a 0 dB.
 
@@ -124,71 +127,80 @@ def conocer_variables():
     7. Mode (Modo)
 
         Descripción: Indica si la canción está en un modo mayor o menor:
+        
             1 = Modo mayor
             0 = Modo menor
-        Las canciones en modo mayor suelen percibirse como más alegres o felices, mientras que
-        las canciones en modo menor tienden a sonar más tristes o melancólicas.
+            
+        Las canciones en modo mayor suelen percibirse como más alegres o felices, mientras
+        que las canciones en modo menor tienden a sonar más tristes o melancólicas.
 
 
     8. Speechiness (Locuacidad)
 
-        Descripción: Evalúa la presencia de palabras habladas en una pista. Las canciones con altos
-        valores de locuacidad suelen tener mucho contenido hablado, como podcasts o pistas de rap.
+        Descripción: Evalúa la presencia de palabras habladas en una pista. Las
+        canciones con altos valores de locuacidad suelen tener mucho contenido hablado,
+        como podcasts o pistas de rap.
         
-        Rango: 0 a 1. Valores cercanos a 1 indican que la pista es principalmente hablada (como un
-        audiolibro o un discurso).
+        Rango: 0 a 1. Valores cercanos a 1 indican que la pista es principalmente
+        hablada (como un audiolibro o un discurso, en estilos musicales podría ser rap
+        o ciertas canciones de cantaautor).
 
 
     9. Acousticness (Acústica)
 
-        Descripción: Mide qué tan acústica es una canción, es decir, qué tan probable es que la pista
-        haya sido creada con instrumentos acústicos, en lugar de electrónicos o amplificados.
+        Descripción: Mide qué tan acústica es una canción, es decir, qué tan probable
+        es que la pista haya sido creada con instrumentos acústicos, en lugar de
+        electrónicos o amplificados.
         
         Rango: 0 a 1. Un valor de 1 indica una alta probabilidad de que la pista sea completamente acústica.
 
 
     10. Instrumentalness (Instrumentalidad)
 
-        Descripción: Mide qué tan instrumental es una canción. Valores altos indican que la pista
-        probablemente no contiene letras o voces cantadas. Las canciones con un valor cercano a 1 son
-        casi completamente instrumentales.
+        Descripción: Mide qué tan instrumental es una canción. Valores altos indican
+        que la pista probablemente no contiene letras o voces cantadas. Las
+        canciones con un valor cercano a 1 son casi completamente instrumentales.
         
         Rango: 0 a 1.
 
 
     11. Liveness (Vivosidad)
 
-        Descripción: Mide la probabilidad de que una pista se haya grabado en vivo, es decir, si contiene
-        elementos que denotan la presencia de un público o un entorno en vivo.
+        Descripción: Mide la probabilidad de que una pista se haya grabado en vivo,
+        es decir, si contiene elementos que denotan la presencia de un público o
+        un entorno en vivo.
         
         Rango: 0 a 1. Un valor de 1 indica una alta presencia de componentes en vivo.
 
 
     12. Valence (Valencia)
 
-        Descripción: Indica el nivel de positividad o negatividad emocional transmitida por una canción.
-        Canciones con altos valores de valencia tienden a ser más alegres y optimistas, mientras que los
-        valores bajos están asociados con emociones más tristes o sombrías.
+        Descripción: Indica el nivel de positividad o negatividad emocional transmitida
+        por una canción. Canciones con altos valores de valencia tienden a ser más
+        alegres y optimistas, mientras que los valores bajos están asociados con
+        emociones más tristes o sombrías.
         
-        Rango: 0 a 1, donde 1 es extremadamente positivo y 0 es extremadamente negativo.
+        Rango: 0 a 1, donde 1 es extremadamente positivo y 0 es extremadamente
+        negativo.
 
 
     13. Tempo
 
-        Descripción: Mide el tempo de la canción, es decir, la velocidad o el ritmo al que se reproduce.
-        Se mide en pulsos por minuto (BPM). Las canciones con un tempo más alto tienden a sentirse más
-        rápidas y enérgicas.
+        Descripción: Mide el tempo de la canción, es decir, la velocidad o el ritmo
+        al que se reproduce. Se mide en pulsos por minuto (BPM). Las canciones con
+        un tempo más alto tienden a sentirse más rápidas y enérgicas.
         
         Rango: Generalmente entre 0 BPM y 250 BPM.
 
 
     14. Time Signature (Compás)
 
-        Descripción: Representa la cantidad de tiempos por compás en una canción. Es un valor entero, y
-        las firmas de tiempo comunes son 4/4, 3/4, o 5/4. En la mayoría de la música popular, el compás
-        de 4 tiempos es el más común.
+        Descripción: Representa la cantidad de tiempos por compás en una canción. Es
+        un valor entero, y las firmas de tiempo comunes son 4/4, 3/4, o 5/4. En la
+        mayoría de la música popular, el compás de 4 tiempos es el más común.
         
-        Rango: Valores enteros como 3, 4 o 5, donde el valor más común es 4 (4 tiempos por compás).
+        Rango: Valores enteros como 3, 4 o 5, donde el valor más común es 4
+        (4 tiempos por compás).
     """)
     print(explicacion)
     return (explicacion)
@@ -396,64 +408,4 @@ def playlist(data):
                     st.error("Error en las dimensiones: `shap_values` y `X_test` deben tener el mismo número de filas y columnas.")
 
     return df_clusters, modelo_clustering
-
-
-
-
-# Configuración de autenticación de la aplicación (mantén el client_secret seguro)
-client_id = os.getenv("SPOTIFY_CLIENT_ID", "###")  # Mejor si usas variables de entorno
-client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "###")  # Mejor si usas variables de entorno
-redirect_uri = "https://app-spotify.streamlit.app/callback"  # Debe estar registrado en el Dashboard de Spotify
-
-
-# Función principal para crear la playlist en la cuenta de usuario autenticado
-def llevarlo_a_spotify(data, df_clusters, modelo):
-    st.subheader("Conectar con tu cuenta de Spotify para crear una Playlist")
-
-    # Autenticar usuario y obtener instancia de Spotify
-    auth_manager = SpotifyOAuth(
-        client_id="27b60162854a4d15beba55f419ffe8b9",  # Credenciales proporcionadas
-        client_secret="6fd02730b5504138b6fcb898bc67d496",  # Credenciales proporcionadas
-        redirect_uri="https://app-spotify.streamlit.app/callback",
-        scope='playlist-modify-private',
-        cache_path=".spotify_cache"
-    )
-
-    sp = spotipy.Spotify(auth_manager=auth_manager)
-
-    if sp:  # Si el usuario está autenticado
-        user_info = sp.current_user()
-        st.success(f"Autenticado como: {user_info['display_name']}")
-
-        # Paso 2: Exportación de Playlist si autenticado
-        nombre_playlist = st.text_input("Nombre de la Playlist:")
-        label_column = 'label'
-
-        if label_column in df_clusters.columns:
-            cluster_id = st.selectbox("Selecciona el cluster para exportar", df_clusters[label_column].unique())
-            canciones_cluster = df_clusters[df_clusters[label_column] == cluster_id]
-            lista_ids = canciones_cluster['ID'].tolist()
-
-            if not lista_ids:
-                st.warning("No hay canciones en este cluster para exportar.")
-                return
-
-            # Botón para crear la playlist en Spotify
-            if st.button("Crear Playlist en tu Spotify"):
-                with st.spinner("Creando la playlist en Spotify y agregando canciones..."):
-                    try:
-                        # Crear la playlist en la cuenta del usuario autenticado
-                        playlist = sp.user_playlist_create(user=user_info['id'], name=nombre_playlist, public=False)
-                        st.info(f'Playlist creada con éxito: "{nombre_playlist}"')
-
-                        # Añadir canciones a la playlist
-                        sp.user_playlist_add_tracks(user=user_info['id'], playlist_id=playlist['id'], tracks=lista_ids)
-                        st.success(f'Playlist "{nombre_playlist}" creada y canciones añadidas con éxito.')
-                    except Exception as e:
-                        st.error("Hubo un problema al crear la playlist o añadir canciones.")
-                        st.error(f"Detalles: {e}")
-        else:
-            st.error("Error: La columna de etiquetas no existe en el dataframe.")
-    else:
-        st.warning("Autenticación requerida para continuar.")
 
